@@ -1,0 +1,112 @@
+architecture:
+    backbone_dtype: int4
+    force_embedding_gradients: false
+    gradient_checkpointing: true
+    intermediate_dropout: 0.0
+    pretrained: true
+    pretrained_weights: ''
+augmentation:
+    random_parent_probability: 0.0
+    skip_parent_probability: 0.0
+    token_mask_probability: 0.0
+dataset:
+    add_eos_token_to_answer: false
+    add_eos_token_to_prompt: false
+    add_eos_token_to_system: false
+    answer_column: target
+    chatbot_author: H2O.ai
+    chatbot_name: h2oGPT
+    data_sample: 1.0
+    data_sample_choice:
+    - Train
+    - Validation
+    limit_chained_samples: false
+    mask_prompt_labels: true
+    num_classes: 7
+    parent_id_column: None
+    personalize: false
+    prompt_column:
+    - input
+    system_column: None
+    text_answer_separator: ''
+    text_prompt_start: ''
+    text_system_start: ''
+    train_dataframe: /llm/classification/h2o-llmstudio/data/user/ptl-train-val-test/train-fold4.csv
+    validation_dataframe: /llm/classification/h2o-llmstudio/data/user/ptl-train-val-test/val-fold4.csv
+    validation_size: 0.01
+    validation_strategy: custom
+environment:
+    compile_model: false
+    deepspeed_reduce_bucket_size: 1000000
+    deepspeed_stage3_param_persistence_threshold: 1000000
+    deepspeed_stage3_prefetch_bucket_size: 1000000
+    find_unused_parameters: false
+    gpus:
+    - '0'
+    - '1'
+    - '2'
+    - '3'
+    - '4'
+    - '5'
+    - '6'
+    - '7'
+    huggingface_branch: main
+    mixed_precision: true
+    number_of_workers: 8
+    seed: -1
+    trust_remote_code: true
+    use_deepspeed: false
+    use_fsdp: false
+experiment_name: folds-4
+llm_backbone: teknium/OpenHermes-2-Mistral-7B
+logging:
+    logger: Neptune
+    neptune_project: binga/predict-the-llm
+output_directory: /llm/classification/h2o-llmstudio/output/user/folds-4/
+prediction:
+    batch_size_inference: 0
+    do_sample: false
+    max_length_inference: 256
+    metric: LogLoss
+    metric_gpt_model: gpt-3.5-turbo-0301
+    min_length_inference: 2
+    num_beams: 1
+    num_history: 4
+    repetition_penalty: 1.2
+    stop_tokens: ''
+    temperature: 0.0
+    top_k: 0
+    top_p: 1.0
+problem_type: text_causal_classification_modeling
+tokenizer:
+    add_prefix_space: false
+    add_prompt_answer_tokens: false
+    max_length: 1024
+    max_length_answer: 32
+    max_length_prompt: 1024
+    padding_quantile: 1.0
+    use_fast: true
+training:
+    batch_size: 16
+    differential_learning_rate: 1.0e-05
+    differential_learning_rate_layers:
+    - classification_head
+    drop_last_batch: true
+    epochs: 5
+    evaluate_before_training: false
+    evaluation_epochs: 1.0
+    grad_accumulation: 1
+    gradient_clip: 0.0
+    learning_rate: 0.0001
+    lora: true
+    lora_alpha: 16
+    lora_dropout: 0.05
+    lora_r: 4
+    lora_target_modules: ''
+    loss_function: CrossEntropyLoss
+    optimizer: AdamW
+    save_best_checkpoint: false
+    schedule: Cosine
+    train_validation_data: false
+    warmup_epochs: 0.0
+    weight_decay: 0.0
