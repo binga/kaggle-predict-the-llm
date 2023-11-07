@@ -1,56 +1,10 @@
 # Predict the LLM Kaggle Competition LogBook
 
 Table of Contents
-- [Experiment Summary](#experiments-summary)
-- [Todo](#todo)
-- [Code Snippets](#useful-code-snippets)
-- [Links](#useful-links)
-- [Tips and Tricks](#general-tips)
+- Experiment Logs
+- [Useful Links](#useful-links)
+- [General Tips](#general-tips)
 - [Ideas that didn't work](#ideas-that-didnt-work)
-
-# Experiments Summary
-
-|  Model | Size | Params | Val.Loss | LB | Params | Exp. Name
-|--------|------|--------|----------|-----|--------|------|
-| microsoft/deberta-v3-small| 286 MB | 44M | 1.58 | 1.65 | | - |
-| microsoft/deberta-v3-base| 1.3GB | 86M | 1.63   | 1.64    | | - |
-| microsoft/deberta-v3-large| 874 MB | 304M | ?   | ?    | | - |
-| mistralai/Mistral-7B-Instruct-v0.1 | 15GB | 7B | 1.028   | 0.925   | max_len_prompt 256, max_len_answer 256, max_length 512, bs 16, epochs 3, int4| blond coua |
-| mistralai/Mistral-7B-Instruct-v0.1 | 15GB | 7B | 1.00639  | 0.855   | max_len_prompt 256 -> 1024, max_len_answer 256 -> 32, max_length 512 -> 1024, bs 16, epochs 3, int4| hospitable-gibbon |
-| mistralai/Mistral-7B-Instruct-v0.1 | 15GB | 7B | 0.945  | 0.736   | max_len_prompt 1024, max_len_answer 32, max_length 1024, bs 16, epochs 4, int4| delectable mushroom |
-
-
-# Todo
-- ~~Fix reproducibility~~
-- ~~Cleaned up directory to make space for experiments~~
-- ~~setup neptune logging~~
-- ~~Reproduce 0.736 submission~~
-- ~~HuggingFaceH4/zephyr-7b-beta which is on top of lmsys arena lb.~~
-- ~~How much variance do we see across folds?~~
-- ~~ehartford/dolphin-2.1-mistral-7b~~
-- ~~teknium/OpenHermes-2-Mistral-7B~~
-- ~~Run 6-10 epochs on Open Hermes 2~~
-- ~~What is the accuracy improvement corresponding to the logloss improvement?~~
-- ~~fix validation setup~~
-- ~~Publish Visualization notebook - https://github.com/koaning/cluestar~~
-- ~~CV-LB graph~~
-- ~~Open-Orca/Mistral-7B-OpenOrca model~~
-- ~~Pseudo labeling (add confident test samples to train data)~~
-- ~~Llama-2-13b-hf~~
-- ~~Effect of Prompt on Model Performance~~
-- ~~Blends of 3 seeds for each model.~~
-- script version
-- Winning solution notebook #notebook
-
-
-Deprioritized Experiments:
-- Mistrallite / NousResearch/Yarn-Mistral-7b-128k -- not possible due to lack of support for flash_attn in H2O-LLMStudio
-- btlm -- couldn't get it to working due to a bug
-- Effect of Prompt on Model Performance #notebook low value seen
-- https://www.kaggle.com/code/cdeotte/rapids-svr-cv-0-450-lb-0-44x #notebook
-- openchat/openchat_3.5 - low performance
-- Qwen/Qwen-14B - didn't work due to a bug mostly due to compatibility issues.
-- 
 
 ## Experiment 19
 Hypothesis: Would a user prompt be useful in this classification?
@@ -446,12 +400,7 @@ It looks like bfloat might not be better than int4 finetuning.
 
 
 
-# Useful Code Snippets
-```
-train.to_csv("ptl-train.csv", index=False)
-test['target'] = 0
-test.to_csv("ptl-test.csv", index=False)
-```
+
 
 # Useful Links
 - **Mardown Basics**: https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax
@@ -484,4 +433,11 @@ test.to_csv("ptl-test.csv", index=False)
 
 # Ideas that didn't work
 - Even though `ehartford/dolphin-2.1-mistral-7b` is a mistral finetune and shows up above Mistral models on Open LLM leaderboard, it did not do well for classification.
-- 
+- `openchat/openchat_3.5` - low performance
+- `HuggingFaceH4/zephyr-7b-beta` did not work as expected!
+- Effect of Prompt on Model Performance -- low value seen in experiments.
+- Deprioritized Experiments:
+    - Mistrallite / NousResearch/Yarn-Mistral-7b-128k -- not possible due to lack of support for flash_attn in H2O-LLMStudio
+    - btlm -- couldn't get it to working due to a bug
+    - https://www.kaggle.com/code/cdeotte/rapids-svr-cv-0-450-lb-0-44x #notebook
+    - Qwen/Qwen-14B - didn't work due to a bug mostly due to compatibility issues.
